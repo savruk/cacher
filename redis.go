@@ -6,7 +6,6 @@ import (
 )
 
 func NewRedisEngine() *RedisEngine {
-	println("to test travis")
 	spec := redis.DefaultSpec().Db(13)
 	client, e := redis.NewSynchClientWithSpec(spec)
 	if e != nil {
