@@ -32,32 +32,50 @@ func Test_Get_MemCache(t *testing.T) {
 
 }
 
-// func Test_FileCache(t *testing.T) {
+func Test_Set_FileCache(t *testing.T) {
 
-// 	m := martini.Classic()
+	engine := NewFilecacheEngine("__cache__")
+	cacher := Cacher{engine}
+	err := cacher.Set("hello", []byte("world"))
 
-// 	engine := NewFilecacheEngine("__cache__")
+	if err != nil{
+		t.Error(err)
+	}
 
-// 	m.Use(Caches(engine))
+}
 
-// 	m.Get("/setfilecache", func(cacher Cache) string {
-// 		cacher.Set("hello", []byte("world"))
-// 		return "OK"
-// 	})
+func Test_Get_FileCache(t *testing.T) {
+	engine := NewFilecacheEngine("__cache__")
+	cacher := Cacher{engine}
+	item, err := cacher.Get("hello")
+	if err != nil{
+		t.Error(err)
+	}
 
-// 	m.Get("/getfilecache", func(cacher Cache) string {
-// 		item, _ := cacher.Get("hello")
-// 		if string(item.Value) != "world" {
-// 			t.Error("Cache writing failed")
-// 		}
-// 		return "OK"
-// 	})
+	if string(item.Value) != "world" {
+		t.Error("Cache writing failed")
+	}
 
-// 	res := httptest.NewRecorder()
-// 	req, _ := http.NewRequest("GET", "/setfilecache", nil)
-// 	m.ServeHTTP(res, req)
+}
 
-// 	res2 := httptest.NewRecorder()
-// 	req2, _ := http.NewRequest("GET", "/getfilecache", nil)
-// 	m.ServeHTTP(res2, req2)
-// }
+func Test_Set_RedisCache(t *testing.T) {
+	engine := NewRedisEngine()
+	cacher := Cacher{engine}
+	err := cacher.Set("hello", []byte("world"))
+	if err != nil{
+		t.Error(err)
+	}
+}
+
+func Test_Get_RedisCache(t *testing.T) {
+	engine := NewRedisEngine()
+	cacher := Cacher{engine}
+	item, err := cacher.Get("hello")
+	if err != nil{
+		t.Error(err)
+	}
+
+	if string(item.Value) != "world" {
+		t.Error("Cache writing failed")
+	}
+}
