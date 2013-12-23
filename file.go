@@ -3,17 +3,19 @@ package cacher
 import (
 	// "strings"
 	"io/ioutil"
-	"path/filepath"
 	"os"
+	"path/filepath"
 )
 
 func NewFilecacheEngine(path string) *FilecacheEngine {
 	app := filepath.Dir(os.Args[0])
 	cachepath := filepath.Join(app, path)
 	ok, err := exists(cachepath)
-	if err != nil {}
+	if err != nil {
+	}
 	if !ok {
-		if err = os.Mkdir(cachepath, os.ModePerm); err != nil {}
+		if err = os.Mkdir(cachepath, os.ModePerm); err != nil {
+		}
 	}
 
 	return &FilecacheEngine{
@@ -30,7 +32,7 @@ func (fc *FilecacheEngine) Get(key string) (*Item, error) {
 	value, err := ioutil.ReadFile(filename)
 
 	return &Item{
-		Key: key,
+		Key:   key,
 		Value: value,
 	}, err
 }
@@ -41,14 +43,13 @@ func (fc *FilecacheEngine) Set(key string, value []byte) (err error) {
 	return err
 }
 
-
 func exists(path string) (bool, error) {
-    _, err := os.Stat(path)
-    if err == nil {
-            return true, nil
-    }
-    if os.IsNotExist(err) {
-            return false, nil
-    }
-    return false, err
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
 }

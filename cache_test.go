@@ -11,7 +11,7 @@ func Test_Set_MemCache(t *testing.T) {
 	cacher := Cacher{engine}
 	err := cacher.Set("hello", []byte("world"))
 
-	if err != nil{
+	if err != nil {
 		t.Error(err)
 	}
 }
@@ -22,7 +22,7 @@ func Test_Get_MemCache(t *testing.T) {
 	})
 	cacher := Cacher{engine}
 	item, err := cacher.Get("hello")
-	if err != nil{
+	if err != nil {
 		t.Error(err)
 	}
 
@@ -38,7 +38,7 @@ func Test_Set_FileCache(t *testing.T) {
 	cacher := Cacher{engine}
 	err := cacher.Set("hello", []byte("world"))
 
-	if err != nil{
+	if err != nil {
 		t.Error(err)
 	}
 
@@ -48,7 +48,7 @@ func Test_Get_FileCache(t *testing.T) {
 	engine := NewFilecacheEngine("__cache__")
 	cacher := Cacher{engine}
 	item, err := cacher.Get("hello")
-	if err != nil{
+	if err != nil {
 		t.Error(err)
 	}
 
@@ -62,7 +62,7 @@ func Test_Set_RedisCache(t *testing.T) {
 	engine := NewRedisEngine()
 	cacher := Cacher{engine}
 	err := cacher.Set("hello", []byte("world"))
-	if err != nil{
+	if err != nil {
 		t.Error(err)
 	}
 }
@@ -71,7 +71,7 @@ func Test_Get_RedisCache(t *testing.T) {
 	engine := NewRedisEngine()
 	cacher := Cacher{engine}
 	item, err := cacher.Get("hello")
-	if err != nil{
+	if err != nil {
 		t.Error(err)
 	}
 

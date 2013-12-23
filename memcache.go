@@ -17,7 +17,7 @@ type MemcacheEngine struct {
 
 func (mc *MemcacheEngine) Get(key string) (*Item, error) {
 	item, err := mc.Client.Get(key)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	return &Item{
