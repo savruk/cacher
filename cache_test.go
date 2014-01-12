@@ -57,3 +57,25 @@ func Test_Get_FileCache(t *testing.T) {
 	}
 
 }
+
+func Test_Set_RedisCache(t *testing.T) {
+	engine := NewRedisEngine()
+	cacher := Cacher{engine}
+	err := cacher.Set("hello", []byte("world"))
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func Test_Get_RedisCache(t *testing.T) {
+	engine := NewRedisEngine()
+	cacher := Cacher{engine}
+	item, err := cacher.Get("hello")
+	if err != nil {
+		t.Error(err)
+	}
+
+	if string(item.Value) != "world" {
+		t.Error("Cache writing failed")
+	}
+}
