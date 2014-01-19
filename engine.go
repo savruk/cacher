@@ -29,4 +29,5 @@ type Item struct {
 type Engine interface {
 	Get(key string) (*Item, error)
 	Set(key string, value []byte) error
+	Flush() error
 }

@@ -1,13 +1,17 @@
 package cacher
 
 type Cacher struct {
-	engine Engine
+	Engine Engine
 }
 
 func (c *Cacher) Get(key string) (*Item, error) {
-	return c.engine.Get(key)
+	return c.Engine.Get(key)
 }
 
 func (c *Cacher) Set(key string, value []byte) (err error) {
-	return c.engine.Set(key, value)
+	return c.Engine.Set(key, value)
+}
+
+func (c *Cacher) Flush() (err error) {
+	return c.Engine.Flush()
 }
