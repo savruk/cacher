@@ -1,6 +1,8 @@
 package cacher
 
 import (
+	"log"
+
 	"github.com/bradfitz/gomemcache/memcache"
 )
 
@@ -31,4 +33,9 @@ func (mc *MemcacheEngine) Get(key string) (*Item, error) {
 
 func (mc *MemcacheEngine) Set(key string, value []byte) (err error) {
 	return mc.Client.Set(&memcache.Item{Key: key, Value: value})
+}
+
+func (mc *MemcacheEngine) Flush() (err error) {
+	log.Panicln("Not supported")
+	return nil
 }

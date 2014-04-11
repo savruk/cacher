@@ -1,8 +1,6 @@
 package cacher
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_Set_MemCache(t *testing.T) {
 	engine := NewMemcacheEngine(Servers{
@@ -70,7 +68,7 @@ func Test_Set_RedisCache(t *testing.T) {
 func Test_Get_RedisCache(t *testing.T) {
 	engine := NewRedisEngine()
 	cacher := Cacher{engine}
-	item, err := cacher.Get("hello")
+	_, err := cacher.Get("hello")
 	if err != nil {
 		t.Error(err)
 	}

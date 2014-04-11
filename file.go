@@ -53,3 +53,7 @@ func exists(path string) (bool, error) {
 	}
 	return false, err
 }
+
+func (fc *FilecacheEngine) Flush() (err error) {
+	return os.RemoveAll(fc.Path)
+}
