@@ -7,7 +7,7 @@ import (
 	"github.com/savruk/cacher"
 )
 
-func MartiniCacheMiddelware(cache cacher.Cacher) martini.Handler {
+func MartiniCacheMiddelware(cache cacher.Engine) martini.Handler {
 	return func(res http.ResponseWriter, req *http.Request, c martini.Context) {
 		c.MapTo(cache, (*cacher.Cacher)(nil))
 	}
