@@ -9,7 +9,7 @@ import (
 
 func NewRedisCache() *RedisCache {
 	log.Printf("%s - %s ", os.Getenv("WERCKER_REDIS_HOST"), os.Getenv("WERCKER_REDIS_PORT"))
-	client, err := redis.Dial()
+	client, err := redis.Dial("tcp", ":6379")
 
 	if err != nil {
 		log.Println("failed to create the client", err)
