@@ -1,8 +1,6 @@
 package cacher
 
-import (
-	"strings"
-)
+import "strings"
 
 type Servers struct {
 	Address string
