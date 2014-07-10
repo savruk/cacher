@@ -3,12 +3,11 @@ package cacher
 import (
 	"log"
 
-	"github.com/alphazero/Go-Redis"
+	"github.com/garyburd/redigo/redis"
 )
 
 func NewRedisCache() *RedisCache {
-	spec := redis.DefaultSpec().Db(7)
-	client, err := redis.NewSynchClientWithSpec(spec)
+	client, err := redis.Dial("tcp", "127.0.0.1:6379")
 
 	if err != nil {
 		log.Println("failed to create the client", err)
@@ -19,12 +18,13 @@ func NewRedisCache() *RedisCache {
 }
 
 type RedisCache struct {
-	Client redis.Client
+	Client redis.Conn
 }
 
 func (rc RedisCache) Get(key string) (*Item, error) {
 
-	value, err := rc.Client.Get(key)
+	value, err := redis.String(rc.Client.Do("GET", key))
+
 	if err != nil {
 		return nil, err
 	}
@@ -36,9 +36,11 @@ func (rc RedisCache) Get(key string) (*Item, error) {
 }
 
 func (rc RedisCache) Set(key string, value []byte) (err error) {
-	return rc.Client.Set(key, value)
+	_, err = rc.Client.Do("SET", key, value)
+	return
 }
 
 func (rc RedisCache) Flush() (err error) {
-	return rc.Client.Flushdb()
+	return
+	// return rc.Client.Flushdb()
 }
