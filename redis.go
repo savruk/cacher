@@ -1,6 +1,7 @@
 package cacher
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -9,7 +10,7 @@ import (
 
 func NewRedisCache() *RedisCache {
 	log.Printf("%s - %s ", os.Getenv("WERCKER_REDIS_HOST"), os.Getenv("WERCKER_REDIS_PORT"))
-	client, err := redis.Dial("tcp", ":6379")
+	client, err := redis.Dial("tcp", fmt.Sprintf("%s:6379", os.Getenv("WERCKER_REDIS_HOST")))
 
 	if err != nil {
 		log.Println("failed to create the client", err)
