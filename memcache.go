@@ -6,18 +6,18 @@ import (
 	"github.com/bradfitz/gomemcache/memcache"
 )
 
-func NewMemcacheEngine(servers ...Servers) *MemcacheEngine {
+func NewMemcache(servers ...Servers) *Memcache {
 	srvs := prepareServers(servers)
-	return &MemcacheEngine{
+	return &Memcache{
 		Client: memcache.New(srvs...),
 	}
 }
 
-type MemcacheEngine struct {
+type Memcache struct {
 	Client *memcache.Client
 }
 
-func (mc *MemcacheEngine) Get(key string) (*Item, error) {
+func (mc *Memcache) Get(key string) (*Item, error) {
 	item, err := mc.Client.Get(key)
 	if err != nil {
 		return nil, err
@@ -31,11 +31,11 @@ func (mc *MemcacheEngine) Get(key string) (*Item, error) {
 	}, nil
 }
 
-func (mc *MemcacheEngine) Set(key string, value []byte) (err error) {
+func (mc *Memcache) Set(key string, value []byte) (err error) {
 	return mc.Client.Set(&memcache.Item{Key: key, Value: value})
 }
 
-func (mc *MemcacheEngine) Flush() (err error) {
+func (mc *Memcache) Flush() (err error) {
 	log.Panicln("Not supported")
 	return nil
 }

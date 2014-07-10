@@ -6,23 +6,23 @@ import (
 	"github.com/alphazero/Go-Redis"
 )
 
-func NewRedisEngine() *RedisEngine {
+func NewRedisCache() *RedisCache {
 	spec := redis.DefaultSpec().Db(7)
 	client, err := redis.NewSynchClientWithSpec(spec)
 
 	if err != nil {
 		log.Println("failed to create the client", err)
 	}
-	return &RedisEngine{
+	return &RedisCache{
 		Client: client,
 	}
 }
 
-type RedisEngine struct {
+type RedisCache struct {
 	Client redis.Client
 }
 
-func (rc RedisEngine) Get(key string) (*Item, error) {
+func (rc RedisCache) Get(key string) (*Item, error) {
 
 	value, err := rc.Client.Get(key)
 	if err != nil {
@@ -35,10 +35,10 @@ func (rc RedisEngine) Get(key string) (*Item, error) {
 	}, nil
 }
 
-func (rc RedisEngine) Set(key string, value []byte) (err error) {
+func (rc RedisCache) Set(key string, value []byte) (err error) {
 	return rc.Client.Set(key, value)
 }
 
-func (rc RedisEngine) Flush() (err error) {
+func (rc RedisCache) Flush() (err error) {
 	return rc.Client.Flushdb()
 }

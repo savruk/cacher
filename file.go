@@ -1,13 +1,12 @@
 package cacher
 
 import (
-	// "strings"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 )
 
-func NewFilecacheEngine(path string) *FilecacheEngine {
+func NewFileCache(path string) *FileCache {
 	app := filepath.Dir(os.Args[0])
 	cachepath := filepath.Join(app, path)
 	ok, err := exists(cachepath)
@@ -18,16 +17,16 @@ func NewFilecacheEngine(path string) *FilecacheEngine {
 		}
 	}
 
-	return &FilecacheEngine{
+	return &FileCache{
 		Path: cachepath,
 	}
 }
 
-type FilecacheEngine struct {
+type FileCache struct {
 	Path string
 }
 
-func (fc *FilecacheEngine) Get(key string) (*Item, error) {
+func (fc *FileCache) Get(key string) (*Item, error) {
 	filename := filepath.Join(fc.Path, key)
 	value, err := ioutil.ReadFile(filename)
 
@@ -37,7 +36,7 @@ func (fc *FilecacheEngine) Get(key string) (*Item, error) {
 	}, err
 }
 
-func (fc *FilecacheEngine) Set(key string, value []byte) (err error) {
+func (fc *FileCache) Set(key string, value []byte) (err error) {
 	filename := filepath.Join(fc.Path, key)
 	err = ioutil.WriteFile(filename, value, os.ModePerm)
 	return err
@@ -54,6 +53,6 @@ func exists(path string) (bool, error) {
 	return false, err
 }
 
-func (fc *FilecacheEngine) Flush() (err error) {
+func (fc *FileCache) Flush() (err error) {
 	return os.RemoveAll(fc.Path)
 }

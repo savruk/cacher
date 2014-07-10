@@ -2,11 +2,10 @@ package cacher
 
 import "testing"
 
-func Test_Set_MemCache(t *testing.T) {
-	engine := NewMemcacheEngine(Servers{
+func TestSetMemCache(t *testing.T) {
+	cacher := NewMemcache(Servers{
 		"127.0.0.1", "11211",
 	})
-	cacher := Cacher{engine}
 	err := cacher.Set("hello", []byte("world"))
 
 	if err != nil {
@@ -14,11 +13,10 @@ func Test_Set_MemCache(t *testing.T) {
 	}
 }
 
-func Test_Get_MemCache(t *testing.T) {
-	engine := NewMemcacheEngine(Servers{
+func TestGetMemCache(t *testing.T) {
+	cacher := NewMemcache(Servers{
 		"127.0.0.1", "11211",
 	})
-	cacher := Cacher{engine}
 	item, err := cacher.Get("hello")
 	if err != nil {
 		t.Error(err)
@@ -30,10 +28,8 @@ func Test_Get_MemCache(t *testing.T) {
 
 }
 
-func Test_Set_FileCache(t *testing.T) {
-
-	engine := NewFilecacheEngine("__cache__")
-	cacher := Cacher{engine}
+func TestSetFileCache(t *testing.T) {
+	cacher := NewFileCache("__cache__")
 	err := cacher.Set("hello", []byte("world"))
 
 	if err != nil {
@@ -42,9 +38,8 @@ func Test_Set_FileCache(t *testing.T) {
 
 }
 
-func Test_Get_FileCache(t *testing.T) {
-	engine := NewFilecacheEngine("__cache__")
-	cacher := Cacher{engine}
+func TestGetFileCache(t *testing.T) {
+	cacher := NewFileCache("__cache__")
 	item, err := cacher.Get("hello")
 	if err != nil {
 		t.Error(err)
@@ -56,18 +51,16 @@ func Test_Get_FileCache(t *testing.T) {
 
 }
 
-func Test_Set_RedisCache(t *testing.T) {
-	engine := NewRedisEngine()
-	cacher := Cacher{engine}
+func TestSetRedisCache(t *testing.T) {
+	cacher := NewRedisCache()
 	err := cacher.Set("hello", []byte("world"))
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-func Test_Get_RedisCache(t *testing.T) {
-	engine := NewRedisEngine()
-	cacher := Cacher{engine}
+func TestGetRedisCache(t *testing.T) {
+	cacher := NewRedisCache()
 	_, err := cacher.Get("hello")
 	if err != nil {
 		t.Error(err)
