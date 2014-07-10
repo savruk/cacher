@@ -2,11 +2,13 @@ package cacher
 
 import (
 	"log"
+	"os"
 
 	"github.com/garyburd/redigo/redis"
 )
 
 func NewRedisCache() *RedisCache {
+	log.Printf("%s - %s ", os.Getenv("WERCKER_REDIS_HOST"), os.Getenv("WERCKER_REDIS_PORT"))
 	client, err := redis.Dial("tcp", "127.0.0.1:6379")
 
 	if err != nil {
