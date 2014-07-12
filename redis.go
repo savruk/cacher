@@ -3,13 +3,13 @@ package cacher
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/garyburd/redigo/redis"
 )
 
-func NewRedisCache() *RedisCache {
-	client, err := redis.Dial("tcp", fmt.Sprintf("%s:6379", os.Getenv("WERCKER_REDIS_HOST")))
+func NewRedisCache(servers ...Servers) *RedisCache {
+
+	client, err := redis.Dial("tcp", fmt.Sprintf("%s:%s", servers[0].Host, servers[0].Port))
 
 	if err != nil {
 		log.Println("failed to create the client", err)

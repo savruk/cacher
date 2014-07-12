@@ -1,6 +1,9 @@
 package cacher
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 func TestSetMemCache(t *testing.T) {
 	cacher := NewMemcache(Servers{
@@ -52,7 +55,9 @@ func TestGetFileCache(t *testing.T) {
 }
 
 func TestSetRedisCache(t *testing.T) {
-	cacher := NewRedisCache()
+	cacher := NewRedisCache(Servers{
+		os.Getenv("WERCKER_REDIS_HOST"), "6379",
+	})
 	err := cacher.Set("hello", []byte("world"))
 	if err != nil {
 		t.Error(err)
@@ -60,7 +65,9 @@ func TestSetRedisCache(t *testing.T) {
 }
 
 func TestGetRedisCache(t *testing.T) {
-	cacher := NewRedisCache()
+	cacher := NewRedisCache(Servers{
+		os.Getenv("WERCKER_REDIS_HOST"), "6379",
+	})
 	_, err := cacher.Get("hello")
 	if err != nil {
 		t.Error(err)
