@@ -1,6 +1,7 @@
 package cacher
 
 import (
+	"bytes"
 	"os"
 	"testing"
 )
@@ -17,6 +18,7 @@ func TestSetMemCache(t *testing.T) {
 }
 
 func TestGetMemCache(t *testing.T) {
+	cacheValue := []byte("world")
 	cacher := NewMemcache(Servers{
 		"127.0.0.1", "11211",
 	})
@@ -25,7 +27,7 @@ func TestGetMemCache(t *testing.T) {
 		t.Error(err)
 	}
 
-	if string(item.Value) != "world" {
+	if !bytes.Equal(item.Value, cacheValue) {
 		t.Error("Cache writing failed")
 	}
 
@@ -42,13 +44,14 @@ func TestSetFileCache(t *testing.T) {
 }
 
 func TestGetFileCache(t *testing.T) {
+	cacheValue := []byte("world")
 	cacher := NewFileCache("__cache__")
 	item, err := cacher.Get("hello")
 	if err != nil {
 		t.Error(err)
 	}
 
-	if string(item.Value) != "world" {
+	if !bytes.Equal(item.Value, cacheValue) {
 		t.Error("Cache writing failed")
 	}
 
@@ -65,11 +68,15 @@ func TestSetRedisCache(t *testing.T) {
 }
 
 func TestGetRedisCache(t *testing.T) {
+	cacheValue := []byte("world")
 	cacher := NewRedisCache(Servers{
 		os.Getenv("WERCKER_REDIS_HOST"), "6379",
 	})
-	_, err := cacher.Get("hello")
+	item, err := cacher.Get("hello")
 	if err != nil {
 		t.Error(err)
+	}
+	if !bytes.Equal(item.Value, cacheValue) {
+		t.Error("Cache writing failed")
 	}
 }
