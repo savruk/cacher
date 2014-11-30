@@ -6,7 +6,7 @@ type Memcache struct {
 	Client *memcache.Client
 }
 
-func NewMemcache(servers ...Servers) *Memcache {
+func NewMemcache(servers ...Server) *Memcache {
 	srvs := prepareServers(servers)
 	return &Memcache{
 		Client: memcache.New(srvs...),

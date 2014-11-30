@@ -12,7 +12,7 @@ var (
 )
 
 func TestSetMemCache(t *testing.T) {
-	cacher := NewMemcache(Servers{
+	cacher := NewMemcache(Server{
 		"127.0.0.1", "11211",
 	})
 	err := cacher.Set(CACHE_KEY, CACHE_VALUE)
@@ -23,9 +23,10 @@ func TestSetMemCache(t *testing.T) {
 }
 
 func TestGetMemCache(t *testing.T) {
-	cacher := NewMemcache(Servers{
-		"127.0.0.1", "11211",
-	})
+	cacher := NewMemcache(
+		Server{"127.0.0.1", "11211"},
+		Server{"127.0.0.1", "11212"},
+	)
 	err := cacher.Set(CACHE_KEY, CACHE_VALUE)
 
 	if err != nil {
@@ -42,7 +43,7 @@ func TestGetMemCache(t *testing.T) {
 }
 
 func TestFlushMemCache(t *testing.T) {
-	cacher := NewMemcache(Servers{
+	cacher := NewMemcache(Server{
 		"127.0.0.1", "11211",
 	})
 	err := cacher.Set(CACHE_KEY, CACHE_VALUE)
@@ -99,7 +100,7 @@ func TestFlushFileCache(t *testing.T) {
 }
 
 func TestSetRedisCache(t *testing.T) {
-	cacher := NewRedisCache(Servers{
+	cacher := NewRedisCache(Server{
 		os.Getenv("WERCKER_REDIS_HOST"), "6379",
 	})
 	err := cacher.Set(CACHE_KEY, CACHE_VALUE)
@@ -109,7 +110,7 @@ func TestSetRedisCache(t *testing.T) {
 }
 
 func TestGetRedisCache(t *testing.T) {
-	cacher := NewRedisCache(Servers{
+	cacher := NewRedisCache(Server{
 		os.Getenv("WERCKER_REDIS_HOST"), "6379",
 	})
 	item, err := cacher.Get(CACHE_KEY)
@@ -122,7 +123,7 @@ func TestGetRedisCache(t *testing.T) {
 }
 
 func TestFlushRedisCache(t *testing.T) {
-	cacher := NewRedisCache(Servers{
+	cacher := NewRedisCache(Server{
 		os.Getenv("WERCKER_REDIS_HOST"), "6379",
 	})
 	err := cacher.Set(CACHE_KEY, CACHE_VALUE)

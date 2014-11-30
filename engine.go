@@ -2,12 +2,12 @@ package cacher
 
 import "strings"
 
-type Servers struct {
+type Server struct {
 	Host string
 	Port string
 }
 
-func prepareServers(servers []Servers) []string {
+func prepareServers(servers []Server) []string {
 	var srvs []string
 	for _, value := range servers {
 		srvs = append(srvs, strings.Join([]string{value.Host, value.Port}, ":"))

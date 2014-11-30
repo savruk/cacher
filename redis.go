@@ -11,7 +11,7 @@ type RedisCache struct {
 	Client redis.Conn
 }
 
-func NewRedisCache(servers ...Servers) *RedisCache {
+func NewRedisCache(servers ...Server) *RedisCache {
 
 	client, err := redis.Dial("tcp", fmt.Sprintf("%s:%s", servers[0].Host, servers[0].Port))
 

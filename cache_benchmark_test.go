@@ -9,7 +9,7 @@ import (
 func BenchmarkGetMemCache(b *testing.B) {
 	cacheValue := []byte("world")
 	for n := 0; n < b.N; n++ {
-		cacher := NewMemcache(Servers{
+		cacher := NewMemcache(Server{
 			"127.0.0.1", "11211",
 		})
 		item, err := cacher.Get("hello")
@@ -40,7 +40,7 @@ func BenchmarkGetFileCache(b *testing.B) {
 func BenchmarkGetRedisCache(b *testing.B) {
 	cacheValue := []byte("world")
 	for n := 0; n < b.N; n++ {
-		cacher := NewRedisCache(Servers{
+		cacher := NewRedisCache(Server{
 			os.Getenv("WERCKER_REDIS_HOST"), "6379",
 		})
 		item, err := cacher.Get("hello")
