@@ -2,10 +2,8 @@ package cacher
 
 import (
 	"io/ioutil"
-	"net/http"
 	"os"
 	"path/filepath"
-	"time"
 )
 
 type FileCache struct {
@@ -42,12 +40,6 @@ func (fc *FileCache) Set(key string, value []byte) (err error) {
 	filename := filepath.Join(fc.Path, key)
 	err = ioutil.WriteFile(filename, value, os.ModePerm)
 	return err
-}
-
-func (fc *fc) ServeHTTP(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	startTime := time.Now()
-	next(rw, r)
-	g.Agent.HTTPTimer.UpdateSince(startTime)
 }
 
 func exists(path string) (bool, error) {
