@@ -1,10 +1,6 @@
 package cacher
 
-import (
-	"log"
-
-	"github.com/bradfitz/gomemcache/memcache"
-)
+import "github.com/bradfitz/gomemcache/memcache"
 
 type Memcache struct {
 	Client *memcache.Client
@@ -36,6 +32,5 @@ func (mc *Memcache) Set(key string, value []byte) (err error) {
 }
 
 func (mc *Memcache) Flush() (err error) {
-	log.Panicln("Not supported")
-	return nil
+	return mc.Client.FlushAll()
 }

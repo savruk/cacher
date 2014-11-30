@@ -43,6 +43,6 @@ func (rc RedisCache) Set(key string, value []byte) (err error) {
 }
 
 func (rc RedisCache) Flush() (err error) {
+	_, err = rc.Client.Do("FLUSHALL")
 	return
-	// return rc.Client.Flushdb()
 }

@@ -29,11 +29,14 @@ func NewFileCache(path string) *FileCache {
 func (fc *FileCache) Get(key string) (*Item, error) {
 	filename := filepath.Join(fc.Path, key)
 	value, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil, err
+	}
 
 	return &Item{
 		Key:   key,
 		Value: value,
-	}, err
+	}, nil
 }
 
 func (fc *FileCache) Set(key string, value []byte) (err error) {
