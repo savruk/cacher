@@ -6,15 +6,15 @@ import (
 	"github.com/bradfitz/gomemcache/memcache"
 )
 
+type Memcache struct {
+	Client *memcache.Client
+}
+
 func NewMemcache(servers ...Servers) *Memcache {
 	srvs := prepareServers(servers)
 	return &Memcache{
 		Client: memcache.New(srvs...),
 	}
-}
-
-type Memcache struct {
-	Client *memcache.Client
 }
 
 func (mc *Memcache) Get(key string) (*Item, error) {

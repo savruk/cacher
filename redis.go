@@ -7,6 +7,10 @@ import (
 	"github.com/garyburd/redigo/redis"
 )
 
+type RedisCache struct {
+	Client redis.Conn
+}
+
 func NewRedisCache(servers ...Servers) *RedisCache {
 
 	client, err := redis.Dial("tcp", fmt.Sprintf("%s:%s", servers[0].Host, servers[0].Port))
@@ -17,10 +21,6 @@ func NewRedisCache(servers ...Servers) *RedisCache {
 	return &RedisCache{
 		Client: client,
 	}
-}
-
-type RedisCache struct {
-	Client redis.Conn
 }
 
 func (rc RedisCache) Get(key string) (*Item, error) {
